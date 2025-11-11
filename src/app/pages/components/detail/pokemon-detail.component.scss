@@ -1,0 +1,19 @@
+img {
+  max-width: 200px;
+  display: block;
+  margin: 0 auto;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+li {
+  display: inline-block;
+  background: #eee;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 0 5px;
+}

@@ -1,0 +1,34 @@
+<!-- <div class="container mt-4">
+  <h2>Pokédex</h2>
+  <div class="row">
+    <div class="col-md-3 mb-3" *ngFor="let p of service.pokemons()">
+      <div
+        class="card p-2 text-center pokemon-card"
+        (click)="openDetail(p.name)"
+      >
+        <h5>{{ p.name | titlecase }}</h5>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Pokédex</h2>
+    <button class="btn btn-success" routerLink="/new">+ Novo Pokémon</button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 mb-3" *ngFor="let p of service.pokemons()">
+      <div class="card p-2 text-center">
+        <h5>{{ p.name | titlecase }}</h5>
+        <p *ngIf="p.description">{{ p.description }}</p>
+
+        <div class="d-flex justify-content-around">
+          <button class="btn btn-sm btn-info" (click)="openDetail(p.name)">Ver</button>
+          <button class="btn btn-sm btn-warning" [routerLink]="['/edit', p.name]">Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="service.deletePokemon(p.name)">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

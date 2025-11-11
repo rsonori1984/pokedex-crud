@@ -1,0 +1,19 @@
+<div class="container mt-4">
+  <h3>{{ editMode ? 'Editar Pokémon' : 'Novo Pokémon' }}</h3>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label>Nome</label>
+      <input class="form-control" formControlName="name" placeholder="Nome do Pokémon" />
+    </div>
+
+    <div class="mb-3">
+      <label>Descrição</label>
+      <textarea class="form-control" formControlName="description"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      {{ editMode ? 'Salvar alterações' : 'Adicionar' }}
+    </button>
+  </form>
+</div>
