@@ -20,6 +20,10 @@ export class PokemonListComponent implements OnInit {
     this.service.loadPokemons();
   }
 
+  ngOnDestroy() {
+    this.service.pokemons.set([]); // limpa o estado
+  }
+
   filteredPokemons() {
     const term = this.searchTerm.toLowerCase();
     return this.service.pokemons().filter(p => p.name.toLowerCase().includes(term));
