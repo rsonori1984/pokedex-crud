@@ -31,10 +31,10 @@ export class PokemonDetailComponent implements OnInit {
   }
 
   getPokemonImage(p: any) {
-    if (!p) return '../assets/pokeball-placeholder.png';
+    if (!p) return '/assets/pokeball-placeholder.png';
     return p.url?.startsWith('local://')
-      ? '../assets/pokeball-placeholder.png'
-      : p.url ?? '../assets/pokeball-placeholder.png';
+      ? '/assets/pokeball-placeholder.png'
+      : p.url ?? '/assets/pokeball-placeholder.png';
   }
 
   goBack() {
