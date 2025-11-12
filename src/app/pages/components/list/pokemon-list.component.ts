@@ -33,7 +33,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   getPokemonImage(pokemon: any) {
     if (pokemon.url?.startsWith('local://')) {
-      return 'assets/pokeball-placeholder.png';
+      return 'https://github.com/rsonori1984/pokedex-crud/blob/master/src/app/assets/pokeball-placeholder.png';
     }
     const id = pokemon.url?.split('/').filter(Boolean).pop();
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
