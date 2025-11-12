@@ -1,4 +1,134 @@
-<div class="pokemon-detail" *ngIf="pokemon">
+<div *ngIf="pokemon; else loading" class="detail-container">
+  <button class="back-btn" (click)="goBack()">⬅ Voltar</button>
+
+  <div class="header">
+    <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" />
+    <h2>{{ pokemon.name | titlecase }}</h2>
+    <p class="id">#{{ pokemon.details?.id || 'Local' }}</p>
+  </div>
+
+  <div class="info">
+    <div><strong>Altura:</strong> {{ pokemon.details?.height || '-' }}</div>
+    <div><strong>Peso:</strong> {{ pokemon.details?.weight || '-' }}</div>
+  </div>
+
+  <div class="types">
+    <strong>Tipos:</strong>
+    <span *ngFor="let type of pokemon.details?.types" class="type">
+      {{ type | titlecase }}
+    </span>
+  </div>
+
+  <div *ngIf="pokemon.details?.abilities?.length" class="section">
+    <h3>Habilidades</h3>
+    <ul>
+      <li *ngFor="let ability of pokemon.details.abilities">{{ ability | titlecase }}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="pokemon.details?.stats?.length" class="section">
+    <h3>Status Base</h3>
+    <ul>
+      <li *ngFor="let stat of pokemon.details.stats">
+        {{ stat.name | titlecase }}: <span class="stat-value">{{ stat.base }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="actions">
+    <button class="edit-btn" (click)="editPokemon()">✏️ Editar</button>
+    <button class="delete-btn" (click)="deletePokemon()">🗑️ Excluir</button>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading">Carregando Pokémon...</div>
+</ng-template>
+
+<!-- ////////////////////////// -->
+<!-- 
+<div *ngIf="pokemon; else loading" class="detail-container">
+  <button class="back-btn" (click)="goBack()">⬅ Voltar</button>
+
+  <div class="header">
+    <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" />
+    <h2>{{ pokemon.name | titlecase }}</h2>
+    <p class="id">#{{ pokemon.details?.id }}</p>
+  </div>
+
+  <div class="info">
+    <div><strong>Altura:</strong> {{ pokemon.details?.height }}</div>
+    <div><strong>Peso:</strong> {{ pokemon.details?.weight }}</div>
+    <div><strong>Tipos:</strong> {{ pokemon.details?.types?.join(', ') }}</div>
+  </div>
+
+  <div *ngIf="pokemon.details?.abilities?.length" class="section">
+    <h3>Habilidades</h3>
+    <ul>
+      <li *ngFor="let ability of pokemon.details.abilities">{{ ability | titlecase }}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="pokemon.details?.stats?.length" class="section">
+    <h3>Status Base</h3>
+    <ul>
+      <li *ngFor="let stat of pokemon.details.stats">
+        {{ stat.name | titlecase }}: {{ stat.base }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading">Carregando Pokémon...</div>
+</ng-template> -->
+
+<!-- /////////////////////// -->
+
+<!-- <div class="detail-container" *ngIf="pokemon() as p; else loading">
+  <div class="card">
+    <img [src]="getPokemonImage(p)" [alt]="p.name" class="pokemon-image" />
+
+    <h2 class="pokemon-name">{{ p.name | titlecase }}</h2>
+
+    <div class="actions">
+      <button class="btn edit" (click)="editPokemon()">Editar</button>
+      <button class="btn delete" (click)="deletePokemon()">Excluir</button>
+      <button class="btn back" (click)="goBack()">Voltar</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading">
+    <p>Carregando Pokémon...</p>
+  </div>
+</ng-template> -->
+
+<!-- /////////// -->
+
+<!-- <div class="detail-container" *ngIf="pokemon; else loading">
+  <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" />
+
+  <label>
+    Nome:
+    <input [(ngModel)]="pokemon.name" />
+  </label>
+
+  <div class="buttons">
+    <button (click)="save()">Salvar</button>
+    <button (click)="back()">Voltar</button>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Carregando...</p>
+</ng-template> -->
+
+
+
+
+<!-- <div class="pokemon-detail" *ngIf="pokemon">
   <button class="back-btn" (click)="goBack()">← Voltar</button>
 
   <h1>{{ pokemon.name | titlecase }}</h1>
@@ -21,7 +151,7 @@
       </span>
     </p>
   </div>
-</div>
+</div> -->
 
 
 <!-- <div class="container mt-4" *ngIf="service.selectedPokemon() as p">

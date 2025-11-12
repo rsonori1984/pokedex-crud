@@ -1,4 +1,32 @@
-<div class="pokemon-container">
+<div class="pokemon-list-container">
+  <header class="list-header">
+    <h1>Pokédex</h1>
+    <a routerLink="/new" class="add-btn">+ Novo Pokémon</a>
+  </header>
+
+  <div *ngIf="service.pokemons().length === 0 && !service.loading()" class="empty-state">
+    <p>Nenhum Pokémon encontrado.</p>
+  </div>
+
+  <div class="pokemon-grid">
+    <div
+      class="pokemon-card"
+      *ngFor="let pokemon of service.pokemons()"
+      (click)="openDetail(pokemon.name)"
+    >
+      <img [src]="getPokemonImage(pokemon)" [alt]="pokemon.name" />
+      <h3>{{ pokemon.name | titlecase }}</h3>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="service.loading()">
+    <div class="spinner"></div>
+    <p>Carregando...</p>
+  </div>
+</div>
+
+
+<!-- <div class="pokemon-container">
   <h1>Pokédex</h1>
 
   <input
@@ -22,4 +50,4 @@
       <h3>{{ p.name | titlecase }}</h3>
     </div>
   </div>
-</div>
+</div> -->
