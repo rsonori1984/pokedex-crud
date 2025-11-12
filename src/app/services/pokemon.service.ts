@@ -27,7 +27,7 @@ export class PokemonService {
 
   constructor(private http: HttpClient) {}
 
-  /** 🔹 Carrega lista (API + Local) */
+  /**Carrega lista (API + Local) */
   loadPokemons(offset = 0, limit = 30) {
     if (this.loading()) return;
 
@@ -86,40 +86,7 @@ loadPokemonDetail(name: string) {
   });
 }
 
-
-//   /** 🔹 Carrega detalhes */
-// loadPokemonDetail(name: string) {
-//   const local = this.pokemons().find((p) => p.name === name);
-//   if (local && local.url?.startsWith('local://')) {
-//     this.selectedPokemon.set(local);
-//     return;
-//   }
-
-//   this.http.get<any>(`${this.apiUrl}/${name}`).subscribe((res) => {
-//     this.selectedPokemon.set({
-//       name: res.name,
-//       // Garante que a URL da imagem seja a oficial e consistente
-//       url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${res.id}.png`,
-//     });
-//   });
-// }
-
-  // loadPokemonDetail(name: string) {
-  //   const local = this.pokemons().find((p) => p.name === name);
-  //   if (local) {
-  //     this.selectedPokemon.set(local);
-  //     return;
-  //   }
-
-  //   this.http.get<any>(`${this.apiUrl}/${name}`).subscribe((res) => {
-  //     this.selectedPokemon.set({
-  //       name: res.name,
-  //       url: res.sprites?.front_default,
-  //     });
-  //   });
-  // }
-
-  /** 🔹 CRUD local */
+  /**CRUD local */
   addPokemon(pokemon: Pokemon) {
     const updated = [...this.pokemons(), { ...pokemon, url: `local://${pokemon.name}` }];
     this.pokemons.set(updated);
@@ -140,13 +107,13 @@ loadPokemonDetail(name: string) {
     this.saveLocalData(updated);
   }
 
-  /** 🔹 Limpa estado */
+  /**Limpa estado */
   clear() {
     this.pokemons.set([]);
     this.selectedPokemon.set(null);
   }
 
-  /** 🔹 Helpers locais */
+  /**Helpers locais */
   private getLocalData(): Pokemon[] {
     const raw = localStorage.getItem(this.localKey);
     return raw ? JSON.parse(raw) : [];
