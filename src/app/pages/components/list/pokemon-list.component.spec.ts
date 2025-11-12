@@ -17,12 +17,17 @@ describe('PokemonListComponent', () => {
       navigate: jest.fn(),
     } as any;
 
+    // The real service exposes signals as properties (not functions).
+    // Provide a mock with the same shape so the component can call .pokemons()/.loading() etc.
     mockPokemonService = {
-      pokemons: jest.fn(() => signal([])),
+      pokemons: signal([]),
       loadPokemons: jest.fn(),
       deletePokemon: jest.fn(),
-      selectedPokemon: jest.fn(() => signal(null)),
+      selectedPokemon: signal(null),
       loadPokemonDetail: jest.fn(),
+      loading: signal(false),
+      hasMore: signal(true),
+      clear: jest.fn(),
     } as any;
 
     await TestBed.configureTestingModule({
@@ -30,8 +35,7 @@ describe('PokemonListComponent', () => {
       providers: [
         { provide: Router, useValue: mockRouter },
         { provide: PokemonService, useValue: mockPokemonService },
-        { provide: ActivatedRoute, useValue: {} },
-        provideRouter([])
+        { provide: ActivatedRoute, useValue: {} }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

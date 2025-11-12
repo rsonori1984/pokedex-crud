@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router, provideRouter } from '@angular/router';
+import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, signal } from '@angular/core';
 
 import { PokemonFormComponent } from './pokemon-form.component';
 import { PokemonService } from '../../../services/pokemon.service';
@@ -20,19 +20,22 @@ describe('PokemonFormComponent', () => {
     mockPokemonService = {
       addPokemon: jest.fn(),
       editPokemon: jest.fn(),
-      pokemons: jest.fn(() => []),
+      // service exposes signals as properties
+      pokemons: signal([]),
       loadPokemons: jest.fn(),
       deletePokemon: jest.fn(),
-      selectedPokemon: jest.fn(() => null),
+      selectedPokemon: signal(null),
       loadPokemonDetail: jest.fn(),
+      loading: signal(false),
+      hasMore: signal(true),
+      clear: jest.fn(),
     } as any;
 
     await TestBed.configureTestingModule({
       imports: [PokemonFormComponent, ReactiveFormsModule],
       providers: [
         { provide: Router, useValue: mockRouter },
-        { provide: PokemonService, useValue: mockPokemonService },
-        provideRouter([])
+        { provide: PokemonService, useValue: mockPokemonService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
