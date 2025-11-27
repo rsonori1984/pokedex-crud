@@ -39,12 +39,15 @@ export class PokemonService {
         const apiList: Pokemon[] = res.results.map((p: any) => ({
           name: p.name,
           url: p.url,
+          details: {
+            id: p.url.split('/').slice(-2, -1)[0],
+          }
         }));
 
         const merged = offset === 0
-  ? this.mergeWithLocal(apiList, local)
-  : [...this.pokemons(), ...this.mergeWithLocal(apiList, local)]
-      .filter((p, i, arr) => arr.findIndex(x => x.name === p.name) === i); // remove duplicados
+        ? this.mergeWithLocal(apiList, local)
+        : [...this.pokemons(), ...this.mergeWithLocal(apiList, local)]
+        .filter((p, i, arr) => arr.findIndex(x => x.name === p.name) === i); // remove duplicados
 
 
         this.pokemons.set(merged);
@@ -74,7 +77,7 @@ loadPokemonDetail(name: string) {
   this.http.get<any>(`${this.apiUrl}/${name}`).subscribe((res) => {
     this.selectedPokemon.set({
       name: res.name,
-      url: res.sprites?.front_default,
+      url: res.sprites?.other.home.front_default,
       details: {
         id: res.id,
         height: res.height,
@@ -114,15 +117,36 @@ loadPokemonDetail(name: string) {
   }
 
   /**Helpers locais */
+  // private getLocalData(): Pokemon[] {
+  //   const raw = localStorage.getItem(this.localKey);
+  //   return raw ? JSON.parse(raw) : [];
+  // }
+
   private getLocalData(): Pokemon[] {
+  try {
     const raw = localStorage.getItem(this.localKey);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const data = JSON.parse(raw);
+    return Array.isArray(data) ? data : [];
+  } catch {
+    console.warn('⚠️ localStorage inacessível, usando fallback.');
+    return [];
   }
+}
+
+  // private saveLocalData(data: Pokemon[]) {
+  //   const localOnly = data.filter((p) => p.url?.startsWith('local://') || !p.url);
+  //   localStorage.setItem(this.localKey, JSON.stringify(localOnly));
+  // }
 
   private saveLocalData(data: Pokemon[]) {
+  try {
     const localOnly = data.filter((p) => p.url?.startsWith('local://') || !p.url);
     localStorage.setItem(this.localKey, JSON.stringify(localOnly));
+  } catch {
+    console.warn('⚠️ Falha ao salvar localmente (provável bloqueio do navegador).');
   }
+}
 
   private mergeWithLocal(apiList: Pokemon[], local: Pokemon[]): Pokemon[] {
     const localNames = local.map((p) => p.name);

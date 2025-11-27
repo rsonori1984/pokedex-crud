@@ -1,14 +1,16 @@
 <div class="pokemon-list-container">
   <header class="list-header">
     <h1>Pokédex</h1>
-    <a routerLink="/new" class="add-btn">+ Novo Pokémon</a>
+    <!-- <a routerLink="/new" class="add-btn">+ Novo Pokémon</a> -->
+    <img src="/img/poke-ball.png" alt="">
+    <p-button label="+ Novo Pokémon" routerLink="/new" />
   </header>
 
   <div *ngIf="service.pokemons().length === 0 && !service.loading()" class="empty-state">
     <p>Nenhum Pokémon encontrado.</p>
   </div>
 
-  <div class="pokemon-grid">
+  <!-- <div class="pokemon-grid">
     <div
       class="pokemon-card"
       *ngFor="let pokemon of service.pokemons()"
@@ -16,6 +18,19 @@
     >
       <img [src]="getPokemonImage(pokemon)" [alt]="pokemon.name" />
       <h3>{{ pokemon.name | titlecase }}</h3>
+    </div>
+  </div> -->
+
+  <div class="pokemon-grid">
+    <div *ngFor="let pokemon of service.pokemons()"
+      (click)="openDetail(pokemon.name)"
+      class="pokemon-card">
+      <p-card header="{{ pokemon.name | titlecase }}">
+        <p>#{{pokemon.details?.id}}</p>
+        <p class="m-0">
+          <img [src]="getPokemonImage(pokemon)" [alt]="pokemon.name" />
+        </p>
+      </p-card>
     </div>
   </div>
 

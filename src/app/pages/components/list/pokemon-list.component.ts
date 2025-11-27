@@ -2,11 +2,13 @@ import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PokemonService } from '../../../services/pokemon.service';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ButtonModule,CardModule],
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss'],
 })
@@ -33,7 +35,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   getPokemonImage(pokemon: any) {
     if (pokemon.url?.startsWith('local://')) {
-      return 'https://pokeapi.co/static/pokeapi_256.3fa72200.png';
+      return '/img/poke-ball.png';
     }
     const id = pokemon.url?.split('/').filter(Boolean).pop();
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;

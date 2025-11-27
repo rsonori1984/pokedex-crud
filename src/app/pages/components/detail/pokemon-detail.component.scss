@@ -11,6 +11,17 @@
   position: relative;
   overflow: hidden;
 }
+.p-card{
+    position: relative;
+    margin: 2rem auto;
+    max-width: 420px;
+    text-align: center;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+}
 
 .back-btn {
   position: absolute;
@@ -31,9 +42,9 @@
   margin-top: 1rem;
 
   img {
-    width: 120px;
-    height: 120px;
-    image-rendering: pixelated;
+    width: 20rem;
+    // height: 120px;
+    // image-rendering: pixelated;
   }
 
   h2 {
