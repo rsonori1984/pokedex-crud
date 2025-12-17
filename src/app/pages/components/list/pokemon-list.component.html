@@ -1,10 +1,11 @@
 <div class="pokemon-list-container">
-  <header class="list-header">
+  <header>teste</header>
+  <section class="list-header">
     <h1>Pokédex</h1>
     <!-- <a routerLink="/new" class="add-btn">+ Novo Pokémon</a> -->
     <img src="/img/poke-ball.png" alt="">
     <p-button label="+ Novo Pokémon" routerLink="/new" />
-  </header>
+  </section>
 
   <div *ngIf="service.pokemons().length === 0 && !service.loading()" class="empty-state">
     <p>Nenhum Pokémon encontrado.</p>

@@ -1,5 +1,6 @@
 <p-card *ngIf="pokemon; else loading" >
-  <button class="back-btn" (click)="goBack()">⬅ Voltar</button>
+  <!-- <button class="back-btn" (click)="goBack()">⬅ Voltar</button> -->
+  <p-button label="⬅ Voltar"  severity="secondary" (click)="goBack()" link />
 
   <div class="header">
     <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" />
@@ -14,8 +15,8 @@
 
   <div class="types">
     <strong>Tipos:</strong>
-    <span *ngFor="let type of pokemon.details?.types" class="type">
-      {{ type | titlecase }}
+    <span *ngFor="let type of pokemon.details?.types">
+      <p-chip label="{{ type | titlecase }}" class="type"/>
     </span>
   </div>
 
@@ -36,8 +37,10 @@
   </div>
 
   <div class="actions">
-    <button class="edit-btn" (click)="editPokemon()">✏️ Editar</button>
-    <button class="delete-btn" (click)="deletePokemon()">🗑️ Excluir</button>
+    <p-button label="✏️ Editar" severity="info" (click)="editPokemon()" />
+    <p-button label="🗑️ Excluir" severity="danger" (click)="deletePokemon()" />
+    <!-- <button class="edit-btn" (click)="editPokemon()">✏️ Editar</button>
+    <button class="delete-btn" (click)="deletePokemon()">🗑️ Excluir</button> -->
   </div>
 </p-card>
 

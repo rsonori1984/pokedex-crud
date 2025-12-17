@@ -3,11 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PokemonService } from '../../../services/pokemon.service';
 import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { ChipModule } from 'primeng/chip';
 
 @Component({
   selector: 'app-pokemon-detail',
   standalone: true,
-  imports: [CommonModule, CardModule],
+  imports: [CommonModule, CardModule, ButtonModule, ChipModule ],
   templateUrl: './pokemon-detail.component.html',
   styleUrls: ['./pokemon-detail.component.scss']
 })
