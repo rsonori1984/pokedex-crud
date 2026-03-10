@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PokemonService } from '../../../services/pokemon.service';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+// import { WeatherComponent } from '../weather-component/weather-component';
 
 @Component({
   selector: 'app-pokemon-list',
