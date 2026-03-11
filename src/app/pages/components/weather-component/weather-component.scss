@@ -1,12 +1,16 @@
-.weather-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 13px;
-  white-space: nowrap;
-  font-family: system-ui;
+.weather-widget{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-size:13px;
+  white-space:nowrap;
+  padding:6px 12px;
+  border-radius:8px;
+  background:#1e1e1e;
+  // color:#fff;
+  font-family:system-ui;
 
-      z-index: 999;
+       z-index: 999;
     position: sticky;
     top: 0;
     display: flex;
@@ -26,14 +30,24 @@
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.weather-icon {
-  width: 28px;
-  height: 28px;
+.icon{
+  width:26px;
+  height:26px;
 }
 
-.weather-row span:not(:first-child)::before {
-  content: "•";
-  margin-right: 8px;
-  opacity: 0.4;
+.temp{
+  font-size:16px;
+  font-weight:600;
 }
 
+.clock{
+  font-weight:600;
+}
+
+.city{
+  opacity:0.9;
+}
+
+app-theme-toggle{
+  margin-left:auto;
+}

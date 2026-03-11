@@ -6,39 +6,39 @@
     <!-- <h1>{{ weatherData }}</h1> -->
 <!-- </div> -->
 @if (weatherData) {
-<div *ngIf="weatherData" class="weather-row">
+<div class="weather-widget">
 
-  <span class="weather-location">
-    📍{{ weatherData.location.name }},
-    {{ weatherData.location.region }}
+  <span class="clock">
+    ⏰ {{ clock }}
   </span>
 
+  <span class="city">
+    📍{{ weatherData.location.name }}
+     - {{ weatherData.location.region }}
+  </span>
   <img
-    class="weather-icon"
-    [src]="'https:' + weatherData.forecast.forecastday[0].day.condition.icon"
-    alt="Clima"
+    class="icon"
+    [src]="'https:' + day.condition.icon"
   />
 
-  <span>
-    Média: {{ weatherData.forecast.forecastday[0].day.avgtemp_c }}°C
+  <span class="temp">
+    {{ day.avgtemp_c }}°
   </span>
 
   <span>
-    Máx: {{ weatherData.forecast.forecastday[0].day.maxtemp_c }}°C
+    ↑{{ day.maxtemp_c }}°
+    ↓{{ day.mintemp_c }}°
   </span>
 
   <span>
-    Min: {{ weatherData.forecast.forecastday[0].day.mintemp_c }}°C
-  </span>
-
-  <span>
-    Umidade: {{ weatherData.forecast.forecastday[0].day.avghumidity }}%
+    💧{{ day.avghumidity }}%
   </span>
 
 </div>
 } @else {
   <p>Carregando dados do clima...</p>
 }
+<app-theme-toggle></app-theme-toggle>
 <!-- <div *ngIf="weatherData" class="weather-row">
 
   <span class="weather-location">
