@@ -1,3 +1,5 @@
+@use "../../../../styles.scss";
+
 header{
     // z-index: 999;
     // position: sticky;
@@ -90,6 +92,12 @@ header{
     text-transform: capitalize;
   }
 }
+
+.dark-theme{ 
+  .pokemon-card {
+  background: var(--bg-card) !important;
+  color: var(--text-main) !important;
+}}
 
 .loading {
   display: flex;
