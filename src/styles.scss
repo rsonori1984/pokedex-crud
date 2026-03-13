@@ -17,8 +17,10 @@
 // }
 
 .pokemon-list-container, app-pokemon-detail {
+  display: block;
   background: var(--bg-card) !important;
   color: var(--text-main) !important;
+  transform: translate(2s) ease-in-out;
 }
 
 // .pokemon-card {

@@ -5,6 +5,12 @@
   <img [src]="weatherData.current.condition.icon"> -->
     <!-- <h1>{{ weatherData }}</h1> -->
 <!-- </div> -->
+ <!-- <p>{{ owData?.name }}, {{ owData?.sys.country }}
+    - {{ owData?.weather[0].description }}
+    {{ owData?.main.temp }}°C
+     (Máx: {{ owData?.main.temp_max }}°C, Mín: {{ owData?.main.temp_min }}°C)
+     💧{{ owData?.main.humidity }}%
+ </p> -->
 @if (weatherData) {
 <div class="weather-widget">
 
