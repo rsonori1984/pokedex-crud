@@ -12,7 +12,7 @@
   overflow: hidden;
 
   background: var(--bg-card);
-  color: var(--text-main);
+  color: var(--text-primary);
   box-shadow: var(--shadow-card);
 }
 .p-card {
@@ -165,9 +165,9 @@
   box-shadow: var(--shadow-card);
 }
 
-.p-card {
-  background: var(--bg-card);
-}
+// .p-card {
+//   background: var(--bg-card);
+// }
 
 .id {
   color: var(--text-secondary);
