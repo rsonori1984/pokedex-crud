@@ -9,9 +9,11 @@ import { ThemeService } from '../../../services/theme.service';
   standalone: true,
 })
 export class ThemeToggle {
-constructor(public themeService: ThemeService) {}
 
-toggleTheme(){
-  this.themeService.toggleTheme();
-}
+  constructor(private themeService: ThemeService) {}
+
+  toggleTheme(){
+    this.themeService.toggleTheme();
+  }
+
 }
