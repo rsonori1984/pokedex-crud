@@ -1,0 +1,27 @@
+.list-header {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .add-btn {
+    background: #ef5350;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: 0.2s ease;
+    font-weight: 500;
+
+    &:hover {
+      background: #d32f2f;
+    }
+  }
+}

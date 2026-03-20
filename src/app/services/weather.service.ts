@@ -22,17 +22,8 @@ export class WeatherService {
   }
 
   getOpenWeatherByCoords(lat: number, lon: number): Observable<any> {
-    // const query = `${lat},${lon}`;
     return this.http.get(
       `${this.openweathermapBaseUrl}lat=${lat}&lon=${lon}&appid=${this.openweathermapApiKey}&units=metric&lang=pt`,
     );
   }
-  // getWeatherByCoords(lat: number, lon: number): Observable<any> {
-
-  //   const query = `${lat},${lon}`;
-
-  //   return this.http.get(
-  //     `${this.baseUrl}/current.json?key=${this.apiKey}&q=${query}&lang=pt&aqi=no`
-  //   );
-  // }
 }
