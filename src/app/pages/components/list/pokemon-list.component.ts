@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PokemonService } from '../../../services/pokemon.service';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { Pokemon } from '../../../models/pokemon.model';
 // import { WeatherComponent } from '../weather-component/weather-component';
 
 @Component({
@@ -33,6 +34,13 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   openDetail(name: string) {
     this.router.navigate(['/pokemon', name]);
   }
+//   trackById(index: number, item: any): number {
+//   return item.details?.id || index; // Usa o ID se disponível, senão o índice como fallback
+// }
+
+trackById(index: number, pokemon: Pokemon | any): number {
+  return pokemon.details?.id || index; // Usa o ID se disponível, senão o índice como fallback  
+}
 
   getPokemonImage(pokemon: any) {
     if (pokemon.url?.startsWith('local://')) {
