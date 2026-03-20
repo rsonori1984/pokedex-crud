@@ -157,3 +157,26 @@
   font-size: 1.1rem;
   color: #555;
 }
+
+
+.detail-container {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-card);
+}
+
+.p-card {
+  background: var(--bg-card);
+}
+
+.id {
+  color: var(--text-secondary);
+}
+
+.section h3 {
+  border-bottom: 2px solid var(--border-color);
+}
+
+.stat-value {
+  color: var(--text-primary);
+}

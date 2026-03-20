@@ -1,3 +1,9 @@
-<button (click)="themeService.toggleTheme()">
+<!-- <button (click)="themeService.toggleTheme()">
 🌙 / ☀️
+</button> -->
+
+<button class="theme-toggle" (click)="toggleTheme()">
+  <span class="icon sun">☀️</span>
+  <span class="icon moon">🌙</span>
+  <span class="slider"></span>
 </button>
