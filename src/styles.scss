@@ -1,5 +1,4 @@
 @use "../src/styles/variables.scss";
-// @use './styles/variables';
 
 /* RESET básico */
 *,
@@ -23,21 +22,6 @@ body {
   color: var(--text-primary);
   font-family: 'Poppins', sans-serif;
 }
-// :root {
-//   --bg-card: #ffffff;
-//   --text-main: #333;
-//   --text-secondary: #777;
-//   --border-color: #ccc;
-//   --shadow: 0 6px 14px rgba(0,0,0,0.1);
-// }
-
-// .dark-theme {
-//   --bg-card: #1e1e1e;
-//   --text-main: #f1f1f1;
-//   --text-secondary: #aaa;
-//   --border-color: #444;
-//   --shadow: 0 6px 14px rgba(0,0,0,0.6);
-// }
 
 .pokemon-list-container, app-pokemon-detail {
   display: block;
@@ -46,11 +30,10 @@ body {
   transform: translate(2s) ease-in-out;
 }
 
-// .pokemon-card {
-//   background: var(--card-bg);
-//   border: 1px solid var(--border-color);
-//   border-radius: 8px;
-//   padding: 16px;
-//   text-align: center;
-//   transition: transform 0.2s, box-shadow 0.2s;
-// }
+app-header{
+  display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+}

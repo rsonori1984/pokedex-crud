@@ -34,13 +34,10 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   openDetail(name: string) {
     this.router.navigate(['/pokemon', name]);
   }
-//   trackById(index: number, item: any): number {
-//   return item.details?.id || index; // Usa o ID se disponível, senão o índice como fallback
-// }
 
-trackById(index: number, pokemon: Pokemon | any): number {
-  return pokemon.details?.id || index; // Usa o ID se disponível, senão o índice como fallback  
-}
+  trackById(index: number, pokemon: Pokemon | any): number {
+    return pokemon.details?.id || index; // Usa o ID se disponível, senão o índice como fallback  
+  }
 
   getPokemonImage(pokemon: any) {
     if (pokemon.url?.startsWith('local://')) {

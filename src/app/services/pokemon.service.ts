@@ -2,19 +2,6 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Pokemon } from "../models/pokemon.model";
 
-// export interface Pokemon {
-//   name: string;
-//   description?: string;
-//   url?: string;
-//   details?: {
-//     id?: string | number;
-//     height?: string | number;
-//     weight?: string | number;
-//     abilities?: string[];
-//     types?: string[];
-//   };
-// }
-
 @Injectable({ providedIn: 'root' })
 export class PokemonService {
   private readonly apiUrl = 'https://pokeapi.co/api/v2/pokemon';

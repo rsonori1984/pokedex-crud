@@ -5,9 +5,10 @@ import { CommonModule } from '@angular/common';
 import { WeatherComponent } from './pages/components/weather-component/weather-component';
 import { ThemeToggle } from './pages/components/theme-toggle/theme-toggle';
 import { ThemeService } from "../app/services/theme.service";
+import { HeaderComponent } from "../app/pages/components/header/header.component"
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, WeatherComponent],
+  imports: [RouterOutlet, CommonModule, WeatherComponent, HeaderComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
