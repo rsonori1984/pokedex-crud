@@ -24,7 +24,7 @@
   </div> -->
 
   <div class="pokemon-grid">
-    <div *ngFor="let pokemon of service.pokemons()"
+    <div *ngFor="let pokemon of service.pokemons(); track: trackById"
       (click)="openDetail(pokemon.name)"
       class="pokemon-card">
       <p-card header="{{ pokemon.name | titlecase }}">
