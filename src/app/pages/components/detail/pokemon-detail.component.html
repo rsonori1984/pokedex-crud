@@ -1,4 +1,4 @@
-<p-card *ngIf="pokemon; else loading" >
+<p-card *ngIf="pokemon; else loading" class="detail-container " >
   <!-- <button class="back-btn" (click)="goBack()">⬅ Voltar</button> -->
   <p-button label="⬅ Voltar"  severity="secondary" (click)="goBack()" link />
 
@@ -47,51 +47,3 @@
 <ng-template #loading>
   <div class="loading">Carregando Pokémon...</div>
 </ng-template>
-
-
-<!-- <div *ngIf="pokemon; else loading" class="detail-container">
-  <button class="back-btn" (click)="goBack()">⬅ Voltar</button>
-
-  <div class="header">
-    <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" />
-    <h2>{{ pokemon.name | titlecase }}</h2>
-    <p class="id">#{{ pokemon.details?.id || 'Local' }}</p>
-  </div>
-
-  <div class="info">
-    <div><strong>Altura:</strong> {{ pokemon.details?.height || '-' }}</div>
-    <div><strong>Peso:</strong> {{ pokemon.details?.weight || '-' }}</div>
-  </div>
-
-  <div class="types">
-    <strong>Tipos:</strong>
-    <span *ngFor="let type of pokemon.details?.types" class="type">
-      {{ type | titlecase }}
-    </span>
-  </div>
-
-  <div *ngIf="pokemon.details?.abilities?.length" class="section">
-    <h3>Habilidades</h3>
-    <ul>
-      <li *ngFor="let ability of pokemon.details.abilities">{{ ability | titlecase }}</li>
-    </ul>
-  </div>
-
-  <div *ngIf="pokemon.details?.stats?.length" class="section">
-    <h3>Status Base</h3>
-    <ul>
-      <li *ngFor="let stat of pokemon.details.stats">
-        {{ stat.name | titlecase }}: <span class="stat-value">{{ stat.base }}</span>
-      </li>
-    </ul>
-  </div>
-
-  <div class="actions">
-    <button class="edit-btn" (click)="editPokemon()">✏️ Editar</button>
-    <button class="delete-btn" (click)="deletePokemon()">🗑️ Excluir</button>
-  </div>
-</div>
-
-<ng-template #loading>
-  <div class="loading">Carregando Pokémon...</div>
-</ng-template> -->
