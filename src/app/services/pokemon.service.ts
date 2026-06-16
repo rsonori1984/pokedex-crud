@@ -23,7 +23,6 @@ loadPokemonNames() {
   this.http
     .get<any>('https://pokeapi.co/api/v2/pokemon?limit=100000')
     .subscribe(res => {
-      console.log(res.results.length);
       this.pokemonNames.set(res.results);
     });
 }

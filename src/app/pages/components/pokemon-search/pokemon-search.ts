@@ -20,7 +20,7 @@ export class PokemonSearch {
   constructor(
     private service: PokemonService,
     private router: Router
-  ) {console.log(this.service.pokemonNames().length);}
+  ) {}
 
   searchPokemon(event: any) {
     const query = event.query.toLowerCase().trim();
@@ -33,7 +33,6 @@ export class PokemonSearch {
   }
 
   onSelectPokemon(event: any) {
-    console.log('Selecionado:', event);
     this.router.navigate(['/pokemon', event.value.name]);
 
     this.selectedPokemon = null;
