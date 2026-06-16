@@ -43,19 +43,4 @@ export class PokemonDetailComponent implements OnInit {
   goBack() {
     this.router.navigate(['/']);
   }
-
-  editPokemon() {
-    if (this.pokemon?.name) {
-      this.router.navigate(['/edit', this.pokemon.name]);
-    }
-  }
-
-  deletePokemon() {
-    if (this.pokemon?.name) {
-      if (confirm(`Tem certeza que deseja excluir ${this.pokemon.name}?`)) {
-        this.service.deletePokemon(this.pokemon.name);
-        this.goBack();
-      }
-    }
-  }
 }

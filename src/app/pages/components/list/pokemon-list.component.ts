@@ -1,16 +1,15 @@
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PokemonService } from '../../../services/pokemon.service';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { Pokemon } from '../../../models/pokemon.model';
-// import { WeatherComponent } from '../weather-component/weather-component';
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, ButtonModule,CardModule],
+  imports: [CommonModule, ButtonModule,CardModule],
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss'],
 })
