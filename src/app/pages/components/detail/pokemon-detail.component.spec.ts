@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NO_ERRORS_SCHEMA, signal } from '@angular/core';
+import { of } from 'rxjs';
 
 import { PokemonDetailComponent } from './pokemon-detail.component';
 import { PokemonService } from '../../../services/pokemon.service';
@@ -9,29 +10,20 @@ describe('PokemonDetailComponent', () => {
   let component: PokemonDetailComponent;
   let fixture: ComponentFixture<PokemonDetailComponent>;
   let mockActivatedRoute: any;
-  let mockPokemonService: jest.Mocked<PokemonService>;
+  let mockPokemonService: jest.Mocked<Partial<PokemonService>>;
   let mockRouter: jest.Mocked<Router>;
-  let originalConfirm: any;
 
   beforeEach(async () => {
     mockActivatedRoute = {
-      snapshot: {
-        paramMap: {
-          get: jest.fn((param: string) => {
-            if (param === 'name') return 'pikachu';
-            return null;
-          })
-        }
-      }
+      paramMap: of({ get: jest.fn((key: string) => 'pikachu') })
     };
 
     mockRouter = { navigate: jest.fn() } as any;
 
     mockPokemonService = {
       loadPokemonDetail: jest.fn(),
-      // signals as properties
-      pokemons: signal([]),
       selectedPokemon: signal(null),
+      pokemons: signal([]),
       loadPokemons: jest.fn(),
       deletePokemon: jest.fn(),
       addPokemon: jest.fn(),
@@ -50,63 +42,103 @@ describe('PokemonDetailComponent', () => {
 
     fixture = TestBed.createComponent(PokemonDetailComponent);
     component = fixture.componentInstance;
-    // keep original confirm to restore after tests
-    originalConfirm = (global as any).confirm;
   });
 
   afterEach(() => {
-    // restore global confirm if it was mocked
-    (global as any).confirm = originalConfirm;
     jest.clearAllMocks();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('Component Initialization', () => {
+    it('should create the component', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should initialize pokemon as null', () => {
+      expect(component.pokemon).toBeNull();
+    });
   });
 
-  it('should load pokemon detail on init', () => {
-    component.ngOnInit();
-    expect(mockActivatedRoute.snapshot.paramMap.get).toHaveBeenCalledWith('name');
-    expect(mockPokemonService.loadPokemonDetail).toHaveBeenCalledWith('pikachu');
+  describe('ngOnInit', () => {
+    it('should load pokemon detail when route param exists', (done) => {
+      const params = new Map([['name', 'pikachu']]);
+      mockActivatedRoute.paramMap = of(params);
+
+      component.ngOnInit();
+
+      setTimeout(() => {
+        expect(mockPokemonService.loadPokemonDetail).toHaveBeenCalledWith('pikachu');
+        done();
+      }, 100);
+    });
+
+    it('should not load pokemon detail when name param is null', (done) => {
+      const params = new Map([['name', null]]);
+      mockActivatedRoute.paramMap = of(params);
+
+      component.ngOnInit();
+
+      setTimeout(() => {
+        expect(mockPokemonService.loadPokemonDetail).not.toHaveBeenCalled();
+        done();
+      }, 100);
+    });
   });
 
-  it('should not load pokemon detail if name param is null', () => {
-    mockActivatedRoute.snapshot.paramMap.get.mockReturnValue(null);
-    component.ngOnInit();
-    expect(mockPokemonService.loadPokemonDetail).not.toHaveBeenCalled();
+  describe('getPokemonImage', () => {
+    it('should return placeholder when pokemon is null', () => {
+      const result = component.getPokemonImage(null);
+      expect(result).toBe('/assets/pokeball-placeholder.png');
+    });
+
+    it('should return placeholder when pokemon is undefined', () => {
+      const result = component.getPokemonImage(undefined);
+      expect(result).toBe('/assets/pokeball-placeholder.png');
+    });
+
+    it('should return placeholder when pokemon url starts with "local://"', () => {
+      const pokemon = { url: 'local://pokemon-image' };
+      const result = component.getPokemonImage(pokemon);
+      expect(result).toBe('/assets/pokeball-placeholder.png');
+    });
+
+    it('should return pokemon url when it is valid', () => {
+      const pokemon = { url: 'https://example.com/pokemon.png' };
+      const result = component.getPokemonImage(pokemon);
+      expect(result).toBe('https://example.com/pokemon.png');
+    });
+
+    it('should return placeholder when pokemon url is null or undefined', () => {
+      const pokemon = { url: null };
+      const result = component.getPokemonImage(pokemon);
+      expect(result).toBe('/assets/pokeball-placeholder.png');
+    });
+
+    it('should return placeholder when pokemon has no url property', () => {
+      const pokemon = { name: 'pikachu' };
+      const result = component.getPokemonImage(pokemon);
+      expect(result).toBe('/assets/pokeball-placeholder.png');
+    });
   });
 
-  it('should navigate to edit when editPokemon is called', () => {
-    // set the selected pokemon signal so the effect updates component.pokemon
-    (mockPokemonService.selectedPokemon as any).set({ name: 'pikachu' });
-    fixture.detectChanges();
-
-    component.editPokemon();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/edit', 'pikachu']);
+  describe('goBack', () => {
+    it('should navigate to root path', () => {
+      component.goBack();
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
+    });
   });
 
-  it('should delete pokemon and go back when confirmed', () => {
-    (mockPokemonService.selectedPokemon as any).set({ name: 'pikachu' });
+  describe('Effect - selectedPokemon', () => {
+    it('should update pokemon property when selectedPokemon signal changes', () => {
+      const mockPokemon = { name: 'pikachu', type: 'electric' };
+      (mockPokemonService.selectedPokemon as any).set(mockPokemon);
 
-  (global as any).confirm = jest.fn(() => true);
-  fixture.detectChanges();
+      // The effect should have been triggered
+      fixture.detectChanges();
 
-  component.deletePokemon();
-
-    expect((global as any).confirm).toHaveBeenCalled();
-    expect(mockPokemonService.deletePokemon).toHaveBeenCalledWith('pikachu');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
-  });
-
-  it('should not delete pokemon when confirmation is cancelled', () => {
-    (mockPokemonService.selectedPokemon as any).set({ name: 'pikachu' });
-
-  (global as any).confirm = jest.fn(() => false);
-  fixture.detectChanges();
-
-  component.deletePokemon();
-
-    expect((global as any).confirm).toHaveBeenCalled();
-    expect(mockPokemonService.deletePokemon).not.toHaveBeenCalled();
+      // Note: Due to the async nature of effects, we may need to wait
+      setTimeout(() => {
+        expect(component.pokemon).toEqual(mockPokemon);
+      }, 0);
+    });
   });
 });

@@ -11,11 +11,35 @@ import { WeatherService } from '../../../services/weather.service';
   standalone: true,
 })
 export class WeatherComponent implements OnInit, OnDestroy {
+getWeatherDescription(code: number): string {
+  const codes: Record<number, string> = {
+    0: '☀️ Céu limpo',
+    1: '🌤️ Principalmente limpo',
+    2: '⛅ Parcialmente nublado',
+    3: '☁️ Nublado',
+    45: '🌫️ Névoa',
+    48: '🌫️ Névoa intensa',
+    51: '🌦️ Garoa leve',
+    53: '🌦️ Garoa moderada',
+    55: '🌦️ Garoa forte',
+    61: '🌧️ Chuva leve',
+    63: '🌧️ Chuva moderada',
+    65: '🌧️ Chuva forte',
+    71: '❄️ Neve leve',
+    73: '❄️ Neve moderada',
+    75: '❄️ Neve forte',
+    95: '⛈️ Tempestade'
+  };
+
+  return codes[code] || '🌍 Clima indisponível';
+}
+
+
+
   weatherData: any;
   day: any;
   clock: string = '';
   timer: any;
-
   owData: any;
 
   constructor(private weatherService: WeatherService) {}
@@ -43,30 +67,44 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.timer = setInterval(updateClock, 1000);
   }
 
+
   getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
 
-        this.weatherService.getWeatherByCoords(lat, lon).subscribe((data: any) => {
+      this.weatherService.getWeatherByCoords(lat, lon)
+        .subscribe((data: any) => {
           this.weatherData = data;
-          this.day = data.forecast.forecastday[0].day;
         });
-      });
-    }
+    });
   }
+}
+  // getLocation() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       const lat = position.coords.latitude;
+  //       const lon = position.coords.longitude;
 
-  getOpenWeather() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const lat = position.coords.latitude; // -23.5854
-        const lon = position.coords.longitude; // -46.6227
-        this.weatherService.getOpenWeatherByCoords(lat, lon).subscribe((data: any) => {
-          console.log('OpenWeather data:', data);
-          this.owData = data;
-        });
-      });
-    }
-  }
+  //       this.weatherService.getWeatherByCoords(lat, lon).subscribe((data: any) => {
+  //         this.weatherData = data;
+  //         this.day = data.forecast.forecastday[0].day;
+  //       });
+  //     });
+  //   }
+  // }
+
+  // getOpenWeather() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       const lat = position.coords.latitude; // -23.5854
+  //       const lon = position.coords.longitude; // -46.6227
+  //       this.weatherService.getOpenWeatherByCoords(lat, lon).subscribe((data: any) => {
+  //         // console.log('OpenWeather data:', data);
+  //         this.owData = data;
+  //       });
+  //     });
+  //   }
+  // }
 }
