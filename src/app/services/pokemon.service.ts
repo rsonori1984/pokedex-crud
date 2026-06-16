@@ -5,7 +5,6 @@ import { Pokemon } from "../models/pokemon.model";
 @Injectable({ providedIn: 'root' })
 export class PokemonService {
   private readonly apiUrl = 'https://pokeapi.co/api/v2/pokemon';
-  private readonly localKey = 'pokemons-local';
 
   pokemons = signal<Pokemon[]>([]);
   selectedPokemon = signal<Pokemon | null>(null);
@@ -19,8 +18,6 @@ export class PokemonService {
     if (this.loading()) return;
 
     this.loading.set(true);
-    const local = this.getLocalData();
-
     this.http.get<any>(`${this.apiUrl}?offset=${offset}&limit=${limit}`).subscribe({
       next: (res) => {
         const apiList: Pokemon[] = res.results.map((p: any) => ({
@@ -32,8 +29,8 @@ export class PokemonService {
         }));
 
         const merged = offset === 0
-        ? this.mergeWithLocal(apiList, local)
-        : [...this.pokemons(), ...this.mergeWithLocal(apiList, local)]
+        ? apiList
+        : [...this.pokemons(), ...apiList]
         .filter((p, i, arr) => arr.findIndex(x => x.name === p.name) === i); // remove duplicados
 
 
@@ -76,70 +73,9 @@ loadPokemonDetail(name: string) {
   });
 }
 
-  /**CRUD local */
-  addPokemon(pokemon: Pokemon) {
-    const updated = [...this.pokemons(), { ...pokemon, url: `local://${pokemon.name}` }];
-    this.pokemons.set(updated);
-    this.saveLocalData(updated);
-  }
-
-  editPokemon(name: string, data: Partial<Pokemon>) {
-    const updated = this.pokemons().map((p) =>
-      p.name === name ? { ...p, ...data } : p
-    );
-    this.pokemons.set(updated);
-    this.saveLocalData(updated);
-  }
-
-  deletePokemon(name: string) {
-    const updated = this.pokemons().filter((p) => p.name !== name);
-    this.pokemons.set(updated);
-    this.saveLocalData(updated);
-  }
-
   /**Limpa estado */
   clear() {
     this.pokemons.set([]);
     this.selectedPokemon.set(null);
-  }
-
-  /**Helpers locais */
-  // private getLocalData(): Pokemon[] {
-  //   const raw = localStorage.getItem(this.localKey);
-  //   return raw ? JSON.parse(raw) : [];
-  // }
-
-  private getLocalData(): Pokemon[] {
-  try {
-    const raw = localStorage.getItem(this.localKey);
-    if (!raw) return [];
-    const data = JSON.parse(raw);
-    return Array.isArray(data) ? data : [];
-  } catch {
-    console.warn('⚠️ localStorage inacessível, usando fallback.');
-    return [];
-  }
-}
-
-  // private saveLocalData(data: Pokemon[]) {
-  //   const localOnly = data.filter((p) => p.url?.startsWith('local://') || !p.url);
-  //   localStorage.setItem(this.localKey, JSON.stringify(localOnly));
-  // }
-
-  private saveLocalData(data: Pokemon[]) {
-  try {
-    const localOnly = data.filter((p) => p.url?.startsWith('local://') || !p.url);
-    localStorage.setItem(this.localKey, JSON.stringify(localOnly));
-  } catch {
-    console.warn('⚠️ Falha ao salvar localmente (provável bloqueio do navegador).');
-  }
-}
-
-  private mergeWithLocal(apiList: Pokemon[], local: Pokemon[]): Pokemon[] {
-    const localNames = local.map((p) => p.name);
-    return [
-      ...apiList.filter((p) => !localNames.includes(p.name)),
-      ...local,
-    ];
   }
 }
