@@ -5,6 +5,7 @@ import { PokemonService } from '../../../services/pokemon.service';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
+// import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -26,12 +27,22 @@ export class PokemonDetailComponent implements OnInit {
     });
   }
 
+  // ngOnInit() {
+  //   const name = this.route.snapshot.paramMap.get('name');
+  //   if (name) {
+  //     this.service.loadPokemonDetail(name);
+  //   }
+  // }
+
   ngOnInit() {
-    const name = this.route.snapshot.paramMap.get('name');
+  this.route.paramMap.subscribe(params => {
+    const name = params.get('name');
+
     if (name) {
       this.service.loadPokemonDetail(name);
     }
-  }
+  });
+}
 
   getPokemonImage(p: any) {
     if (!p) return '/assets/pokeball-placeholder.png';

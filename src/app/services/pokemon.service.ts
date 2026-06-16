@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Pokemon } from "../models/pokemon.model";
+import { Pokemon, PokemonSearchItem } from "../models/pokemon.model";
 
 @Injectable({ providedIn: 'root' })
 export class PokemonService {
@@ -10,8 +10,23 @@ export class PokemonService {
   selectedPokemon = signal<Pokemon | null>(null);
   loading = signal(false);
   hasMore = signal(true);
+  pokemonNames = signal<PokemonSearchItem[]>([]);
 
   constructor(private http: HttpClient) {}
+
+loadPokemonNames() {
+
+  if (this.pokemonNames().length > 0) {
+    return;
+  }
+
+  this.http
+    .get<any>('https://pokeapi.co/api/v2/pokemon?limit=100000')
+    .subscribe(res => {
+      console.log(res.results.length);
+      this.pokemonNames.set(res.results);
+    });
+}
 
   /**Carrega lista (API + Local) */
   loadPokemons(offset = 0, limit = 30) {
