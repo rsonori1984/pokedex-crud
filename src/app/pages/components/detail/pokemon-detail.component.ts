@@ -44,12 +44,16 @@ export class PokemonDetailComponent implements OnInit {
   });
 }
 
-  getPokemonImage(p: any) {
-    if (!p) return '/assets/pokeball-placeholder.png';
-    return p.url?.startsWith('local://')
-      ? '/assets/pokeball-placeholder.png'
-      : p.url ?? '/assets/pokeball-placeholder.png';
-  }
+  // getPokemonImage(p: any) {
+  //   if (!p) return '/img/poke-ball.svg';
+  //   return p.url?.startsWith('local://')
+  //     ? '/img/poke-ball.svg'
+  //     : p.url ?? '/img/poke-ball.svg';
+  // }
+
+getPokemonImage(p: any) {
+  return p?.url || '/img/poke-ball.svg';
+}
 
   goBack() {
     this.router.navigate(['/']);
