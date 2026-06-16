@@ -5,11 +5,12 @@ import { PokemonService } from '../../../services/pokemon.service';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { Pokemon } from '../../../models/pokemon.model';
+// import { PokemonSearch } from '../pokemon-search/pokemon-search';
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [CommonModule, ButtonModule,CardModule],
+  imports: [CommonModule, ButtonModule,CardModule, ],
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss'],
 })

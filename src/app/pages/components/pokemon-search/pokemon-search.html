@@ -1,0 +1,14 @@
+
+<p-floatlabel variant="on">
+
+    <p-autocomplete
+    [(ngModel)]="selectedPokemon"
+    [suggestions]="suggestions"
+    (completeMethod)="searchPokemon($event)"
+    (onSelect)="onSelectPokemon($event)"
+    optionLabel="name"
+
+    [dropdown]="false">
+</p-autocomplete>
+<label for="on_label">Digite o nome de um Pokémon</label>
+</p-floatlabel>
