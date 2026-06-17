@@ -34,8 +34,6 @@ getWeatherDescription(code: number): string {
   return codes[code] || '🌍 Clima indisponível';
 }
 
-
-
   weatherData: any;
   day: any;
   clock: string = '';
@@ -47,7 +45,6 @@ getWeatherDescription(code: number): string {
   ngOnInit(): void {
     this.startClock();
     this.getLocation();
-    // this.getOpenWeather();
   }
 
   ngOnDestroy(): void {
@@ -81,30 +78,4 @@ getWeatherDescription(code: number): string {
     });
   }
 }
-  // getLocation() {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       const lat = position.coords.latitude;
-  //       const lon = position.coords.longitude;
-
-  //       this.weatherService.getWeatherByCoords(lat, lon).subscribe((data: any) => {
-  //         this.weatherData = data;
-  //         this.day = data.forecast.forecastday[0].day;
-  //       });
-  //     });
-  //   }
-  // }
-
-  // getOpenWeather() {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       const lat = position.coords.latitude; // -23.5854
-  //       const lon = position.coords.longitude; // -46.6227
-  //       this.weatherService.getOpenWeatherByCoords(lat, lon).subscribe((data: any) => {
-  //         // console.log('OpenWeather data:', data);
-  //         this.owData = data;
-  //       });
-  //     });
-  //   }
-  // }
 }

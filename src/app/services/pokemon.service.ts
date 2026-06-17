@@ -57,21 +57,6 @@ loadPokemonNames() {
   }
 
 loadPokemonDetail(name: string) {
-  const local = this.pokemons().find((p) => p.name === name);
-  if (local && local.url?.startsWith('local://')) {
-    this.selectedPokemon.set({
-      ...local,
-      details: {
-        id: '-',
-        height: '-',
-        weight: '-',
-        types: ['Local'],
-        abilities: [],
-      }
-    });
-    return;
-  }
-
   this.http.get<any>(`${this.apiUrl}/${name}`).subscribe((res) => {
     this.selectedPokemon.set({
       name: res.name,
