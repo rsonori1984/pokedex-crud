@@ -8,11 +8,12 @@ import { Pokemon } from '../../../models/pokemon.model';
 import { FavoriteToggle } from '../favorite-toggle/favorite-toggle';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
+import { BackToTopComponent } from '../back-to-top/back-to-top';
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [CommonModule, ButtonModule,CardModule, FavoriteToggle,SelectButtonModule,FormsModule],
+  imports: [CommonModule, ButtonModule,CardModule, FavoriteToggle,SelectButtonModule,FormsModule, BackToTopComponent],
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss'],
 })
