@@ -5,7 +5,6 @@ import { PokemonService } from '../../../services/pokemon.service';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { Pokemon } from '../../../models/pokemon.model';
-// import { PokemonSearch } from '../pokemon-search/pokemon-search';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -40,9 +39,6 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   }
 
   getPokemonImage(pokemon: any) {
-    if (pokemon.url?.startsWith('local://')) {
-      return '/img/poke-ball.png';
-    }
     const id = pokemon.url?.split('/').filter(Boolean).pop();
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
   }
