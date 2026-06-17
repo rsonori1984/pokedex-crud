@@ -1,0 +1,34 @@
+.favorite-toggle {
+  // position: absolute;
+  top: 8px;
+  right: 8px;
+
+  width: 60px;
+  height: 30px;
+
+  border: none;
+  border-radius: 20px;
+
+  background: #ddd;
+
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.toggle-ball {
+  width: 26px;
+  height: 26px;
+
+  // margin: 2px;
+
+  transition: transform .3s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.toggle-ball.active {
+  transform: translateX(23px);
+}

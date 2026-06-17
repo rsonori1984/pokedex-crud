@@ -5,10 +5,11 @@ import { PokemonService } from '../../../services/pokemon.service';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
+import { FavoriteToggle } from '../favorite-toggle/favorite-toggle';
 @Component({
   selector: 'app-pokemon-detail',
   standalone: true,
-  imports: [CommonModule, CardModule, ButtonModule, ChipModule ],
+  imports: [CommonModule, CardModule, ButtonModule, ChipModule, FavoriteToggle ],
   templateUrl: './pokemon-detail.component.html',
   styleUrls: ['./pokemon-detail.component.scss']
 })
