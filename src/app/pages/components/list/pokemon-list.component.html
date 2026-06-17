@@ -1,18 +1,60 @@
+<div class="filter-container">
+
+  <p-selectbutton
+    [options]="filterOptions"
+    [ngModel]="selectedFilter"
+    (ngModelChange)="onFilterChange($event)"
+    optionLabel="label"
+    optionValue="value">
+  </p-selectbutton>
+
+</div>
+<!-- <div class="filter-buttons">
+
+  <button
+    pButton
+    label="Todos"
+    [outlined]="service.showFavoritesOnly()"
+    (click)="service.showFavoritesOnly.set(false)">
+  </button>
+
+  <button
+  pButton
+  [label]="'Favoritos (' + service.favorites().length + ')'"
+  [outlined]="!service.showFavoritesOnly()"
+  (click)="service.showFavoritesOnly.set(true)">
+</button> -->
+
+<!-- <p-selectbutton
+  [options]="filterOptions"
+  [(ngModel)]="selectedFilter"
+  (onChange)="changeFilter($event)">
+</p-selectbutton> -->
+
+<!-- </div> -->
+
 <div class="pokemon-list-container">
-  <div *ngIf="service.pokemons().length === 0 && !service.loading()" class="empty-state">
+  <div *ngIf="service.filteredPokemons().length === 0 && !service.loading()" class="empty-state">
     <p>Nenhum Pokémon encontrado.</p>
   </div>
 
   <div class="pokemon-grid">
-    <div *ngFor="let pokemon of service.pokemons(); trackBy: trackById"
+    <div *ngFor="let pokemon of service.filteredPokemons(); trackBy: trackById"
       (click)="openDetail(pokemon.name)"
       class="pokemon-card">
       <p-card header="{{ pokemon.name | titlecase }}">
         <p>#{{pokemon.details?.id}}</p>
         <p class="m-0">
-          <img [src]="getPokemonImage(pokemon)" [alt]="pokemon.name" />
+<img
+  [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.details?.id + '.png'"
+  [alt]="pokemon.name"
+/>
         </p>
+<app-favorite-toggle
+  [pokemonName]="pokemon.name">
+</app-favorite-toggle>
       </p-card>
+
     </div>
   </div>
 

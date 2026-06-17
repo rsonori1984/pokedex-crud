@@ -1,5 +1,13 @@
 <p-card *ngIf="pokemon; else loading" class="detail-container " >
-  <p-button label="⬅ Voltar"  severity="secondary" (click)="goBack()" link />
+  <div class="actions">
+    <p>
+      <p-button label="⬅ Voltar"  severity="secondary" (click)="goBack()" link />
+
+    </p>
+  <app-favorite-toggle
+  [pokemonName]="pokemon.name">
+  </app-favorite-toggle>
+  </div>
 
   <div class="header">
     <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" />
@@ -35,9 +43,6 @@
     </ul>
   </div>
 
-  <div class="actions">
-
-  </div>
 </p-card>
 
 <ng-template #loading>

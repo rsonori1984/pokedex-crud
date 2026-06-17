@@ -78,3 +78,80 @@
   margin-top: 3rem;
   color: #777;
 }
+
+// .pokemon-card {
+//   position: relative;
+// }
+
+// .favorite-btn {
+//   position: absolute;
+//   top: 8px;
+//   right: 8px;
+//   z-index: 10;
+// }
+
+// .favorite-btn {
+//   border: none;
+//   background: transparent;
+//   cursor: pointer;
+
+//   img {
+//     width: 28px;
+//     transition: all .3s ease;
+//   }
+
+//   &:hover img {
+//     transform: scale(1.15);
+//   }
+// }
+
+// .favorite-btn img {
+//   transition:
+//     transform .3s ease,
+//     filter .3s ease;
+// }
+
+// .favorite-btn:active img {
+//   transform: rotate(180deg) scale(1.2);
+// }
+
+.favorite-toggle {
+  // position: absolute;
+  top: 8px;
+  right: 8px;
+
+  width: 60px;
+  height: 30px;
+
+  border: none;
+  border-radius: 20px;
+
+  background: #ddd;
+
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.toggle-ball {
+  width: 26px;
+  height: 26px;
+
+  // margin: 2px;
+
+  transition: transform .3s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.toggle-ball.active {
+  transform: translateX(23px);
+}
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 2rem;
+}

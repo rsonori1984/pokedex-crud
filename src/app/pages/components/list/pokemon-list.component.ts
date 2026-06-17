@@ -5,16 +5,31 @@ import { PokemonService } from '../../../services/pokemon.service';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { Pokemon } from '../../../models/pokemon.model';
+import { FavoriteToggle } from '../favorite-toggle/favorite-toggle';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [CommonModule, ButtonModule,CardModule, ],
+  imports: [CommonModule, ButtonModule,CardModule, FavoriteToggle,SelectButtonModule,FormsModule],
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss'],
 })
 export class PokemonListComponent implements OnInit, OnDestroy {
   private scrollLock = false; // trava pra evitar chamadas duplas
+
+  get filterOptions() {
+  return [
+    { label: 'Todos', value: false },
+    {
+      label: `Favoritos (${this.service.favorites().length})`,
+      value: true
+    }
+  ];
+}
+
+selectedFilter: boolean = false;
 
   constructor(public service: PokemonService, private router: Router) {}
 
@@ -38,11 +53,6 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     return pokemon.details?.id || index; // Usa o ID se disponível, senão o índice como fallback  
   }
 
-  getPokemonImage(pokemon: any) {
-    const id = pokemon.url?.split('/').filter(Boolean).pop();
-    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-  }
-
   // Scroll infinito otimizado
   @HostListener('window:scroll', [])
   onScroll(): void {
@@ -62,5 +72,10 @@ export class PokemonListComponent implements OnInit, OnDestroy {
       // destrava após um pequeno delay
       setTimeout(() => (this.scrollLock = false), 800);
     }
+  }
+
+  onFilterChange(value: boolean) {
+    this.selectedFilter = value;
+    this.service.showFavoritesOnly.set(value);
   }
 }
