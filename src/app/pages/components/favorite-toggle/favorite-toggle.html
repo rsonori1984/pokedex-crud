@@ -1,0 +1,19 @@
+<button
+  class="favorite-toggle"
+  (click)="toggle($event)"
+  [pTooltip]="service.isFavorite(pokemonName)
+    ? 'Remover dos favoritos'
+    : 'Adicionar aos favoritos'"
+  tooltipPosition="bottom"
+  showDelay="300"
+>
+<div class="toggle-ball" [class.active]="service.isFavorite(pokemonName)">
+    <img
+    [src]="service.isFavorite(pokemonName)
+    ? '/img/pokeball-color.svg'
+    : '/img/pokeball-bw.svg'"
+    alt="Favorito"
+    />
+</div>
+
+</button>
