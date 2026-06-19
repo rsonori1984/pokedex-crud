@@ -20,6 +20,9 @@
 
 </div>
 }
+@else if (loadingWeather) {
+<p>🌤️ Carregando clima...</p>
+}
 @else {
-<p>Carregando dados do clima...</p>
+<p>{{ weatherError }}</p>
 }
