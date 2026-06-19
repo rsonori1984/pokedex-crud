@@ -14,17 +14,25 @@
     width: 100px;
   }
 
-  .add-btn {
-    background: #ef5350;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    transition: 0.2s ease;
-    font-weight: 500;
+  @media (max-width: 600px) {
+display: flex;
+        /* flex-direction: column; */
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
 
-    &:hover {
-      background: #d32f2f;
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .logo-link {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      .logo {
+        width: 50%;
+      }
     }
   }
 }
