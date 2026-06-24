@@ -2,81 +2,102 @@
 
 Uma Pokédex moderna desenvolvida com Angular 20, consumindo a PokeAPI e exibindo informações detalhadas dos Pokémon em uma interface responsiva e intuitiva.
 
-![Pokédex](./src/assets/img/logo.png)
+![Pokédex](./src/assets/img/logoPkDx.svg)
 
-## ✨ Funcionalidades
+# Pokédex Angular
 
-- 🔍 Busca global de Pokémon em tempo real
-- 🌙 Alternância entre tema claro e escuro
-- 🌦️ Informações climáticas em tempo real
-- 📍 Geolocalização automática do usuário
-- ♾️ Infinite Scroll para carregamento contínuo
-- 📖 Página de detalhes de cada Pokémon
-- 🎨 Interface construída com PrimeNG
-- ⚡ Gerenciamento de estado utilizando Angular Signals
+Uma Pokédex moderna construída com Angular 20, PrimeNG e PokeAPI.
 
-## 🚀 Tecnologias Utilizadas
+## Demo
 
-- Angular 20
-- TypeScript
-- SCSS
-- PrimeNG
-- Angular Signals
-- RxJS
-- PokeAPI
-- Open-Meteo API
+Deploy: https://pokedex-crud-v4t3.vercel.app/
 
-## 📸 Preview
+## Funcionalidades
 
-### Lista de Pokémon
+### Pokémon
 
-- Busca rápida por nome
-- Navegação fluida
-- Cards responsivos
+* Listagem de Pokémon com Infinite Scroll
+* Busca global utilizando AutoComplete
+* Página de detalhes do Pokémon
+* Exibição de tipos, habilidades, altura e peso
+* Navegação entre listagem e detalhes
 
-### Detalhes
+### Favoritos
 
-- Tipos
-- Altura
-- Peso
-- Habilidades
+* Adicionar e remover favoritos
+* Persistência utilizando LocalStorage
+* Filtro para exibir apenas favoritos
+* Componente reutilizável de favorito
 
-### Recursos Extras
+### Interface
 
-- Tema claro/escuro
-- Clima local
-- Geolocalização
+* Tema claro/escuro
+* Botão "Back to Top"
+* Layout responsivo
+* Componentes PrimeNG
+* Loading states
 
-## 🏗️ Estrutura do Projeto
+### Clima
+
+* Geolocalização do usuário
+* Exibição da temperatura atual
+* Temperaturas máxima e mínima do dia
+* Descrição das condições climáticas
+* Tratamento para negação de permissão de localização
+
+---
+
+## Tecnologias
+
+* Angular 20
+* TypeScript
+* PrimeNG
+* RxJS
+* Signals
+* PokeAPI
+* Open-Meteo API
+* Bootstrap
+* Vercel
+
+---
+
+## Estrutura do Projeto
 
 ```text
 src
-├── app
-│   ├── models
-│   ├── pages
-│   │   └── components
-│   │       ├── detail
-│   │       ├── list
-│   │       ├── pokemon-search
-│   │       ├── theme-toggle
-│   │       └── weather-component
-│   └── services
-└── assets
-    └── img
+├───app
+│   ├───constants
+│   ├───models
+│   ├───pages
+│   │   └───components
+│   │       ├───back-to-top
+│   │       ├───detail
+│   │       ├───favorite-toggle
+│   │       ├───header
+│   │       ├───list
+│   │       ├───pokemon-search
+│   │       ├───theme-toggle
+│   │       └───weather-component
+│   └───services
+├───assets
+│   └───img
+└───styles
 ```
 
-## ⚙️ Instalação
+---
+
+## Instalação
 
 Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/pokedex-angular.git
+git clone https://github.com/rsonori1984/pokedex-crud.git
 ```
 
-Acesse a pasta:
+Entre na pasta:
 
 ```bash
-cd pokedex-angular
+cd pokedex-crud
 ```
 
 Instale as dependências:
@@ -91,54 +112,76 @@ Execute o projeto:
 ng serve
 ```
 
-A aplicação estará disponível em:
+Acesse:
 
 ```text
 http://localhost:4200
 ```
 
-## 📡 APIs Utilizadas
+---
+
+## Build
+
+```bash
+ng build
+```
+
+Os arquivos gerados ficarão em:
+
+```text
+dist/pokedex-crud
+```
+
+---
+
+## Testes
+
+Executar testes:
+
+```bash
+npm test
+```
+
+Executar em modo watch:
+
+```bash
+npm run test:watch
+```
+
+Gerar cobertura:
+
+```bash
+npm run test:coverage
+```
+
+---
+
+## APIs Utilizadas
 
 ### PokeAPI
 
 https://pokeapi.co/
 
-Responsável por fornecer:
-
-- Lista de Pokémon
-- Detalhes
-- Tipos
-- Habilidades
-- Sprites
+Fonte de dados dos Pokémon.
 
 ### Open-Meteo
 
 https://open-meteo.com/
 
-Responsável por fornecer:
+Fonte de dados meteorológicos utilizada pelo widget de clima.
 
-- Temperatura atual
-- Condições climáticas
+---
 
-## 🎯 Objetivo
+## Melhorias Futuras
 
-Este projeto foi criado com foco em estudo e prática de:
+* Testes unitários adicionais
+* Melhorias de responsividade
+* Página dedicada de favoritos
+* Filtros por tipo
+* PWA
+* Otimizações de performance
 
-- Angular moderno
-- Componentes Standalone
-- Signals
-- Consumo de APIs REST
-- Gerenciamento de estado
-- Boas práticas de organização de código
-- Desenvolvimento de interfaces com PrimeNG
-
-## 🔮 Próximas Funcionalidades
-
-- ❤️ Sistema de favoritos
-- 🏷️ Filtro por tipo
-- 🧪 Testes unitários
-- 📱 Melhorias de responsividade
-- 🚀 Deploy no GitHub Pages
+---
 
 ## 👨‍💻 Autor
 
