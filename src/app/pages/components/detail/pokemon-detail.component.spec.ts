@@ -28,6 +28,8 @@ describe('PokemonDetailComponent', () => {
       deletePokemon: jest.fn(),
       addPokemon: jest.fn(),
       editPokemon: jest.fn(),
+      toggleFavorite: jest.fn(),
+      isFavorite: jest.fn(() => false),
     } as any;
 
     await TestBed.configureTestingModule({
@@ -87,18 +89,18 @@ describe('PokemonDetailComponent', () => {
   describe('getPokemonImage', () => {
     it('should return placeholder when pokemon is null', () => {
       const result = component.getPokemonImage(null);
-      expect(result).toBe('/assets/pokeball-placeholder.png');
+      expect(result).toBe('/img/poke-ball.svg');
     });
 
     it('should return placeholder when pokemon is undefined', () => {
       const result = component.getPokemonImage(undefined);
-      expect(result).toBe('/assets/pokeball-placeholder.png');
+      expect(result).toBe('/img/poke-ball.svg');
     });
 
-    it('should return placeholder when pokemon url starts with "local://"', () => {
+    it('should return local url when pokemon url starts with "local://"', () => {
       const pokemon = { url: 'local://pokemon-image' };
       const result = component.getPokemonImage(pokemon);
-      expect(result).toBe('/assets/pokeball-placeholder.png');
+      expect(result).toBe('local://pokemon-image');
     });
 
     it('should return pokemon url when it is valid', () => {
@@ -110,13 +112,13 @@ describe('PokemonDetailComponent', () => {
     it('should return placeholder when pokemon url is null or undefined', () => {
       const pokemon = { url: null };
       const result = component.getPokemonImage(pokemon);
-      expect(result).toBe('/assets/pokeball-placeholder.png');
+      expect(result).toBe('/img/poke-ball.svg');
     });
 
     it('should return placeholder when pokemon has no url property', () => {
       const pokemon = { name: 'pikachu' };
       const result = component.getPokemonImage(pokemon);
-      expect(result).toBe('/assets/pokeball-placeholder.png');
+      expect(result).toBe('/img/poke-ball.svg');
     });
   });
 
@@ -132,13 +134,9 @@ describe('PokemonDetailComponent', () => {
       const mockPokemon = { name: 'pikachu', type: 'electric' };
       (mockPokemonService.selectedPokemon as any).set(mockPokemon);
 
-      // The effect should have been triggered
       fixture.detectChanges();
 
-      // Note: Due to the async nature of effects, we may need to wait
-      setTimeout(() => {
-        expect(component.pokemon).toEqual(mockPokemon);
-      }, 0);
+      expect(component.pokemon).toEqual(mockPokemon);
     });
   });
 });
