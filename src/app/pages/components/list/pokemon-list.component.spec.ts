@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router, provideRouter, ActivatedRoute } from '@angular/router';
-import { signal } from '@angular/core';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Router } from '@angular/router';
+import { signal, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { PokemonListComponent } from './pokemon-list.component';
 import { PokemonService } from '../../../services/pokemon.service';
@@ -10,17 +9,22 @@ describe('PokemonListComponent', () => {
   let component: PokemonListComponent;
   let fixture: ComponentFixture<PokemonListComponent>;
   let mockRouter: jest.Mocked<Router>;
-  let mockPokemonService: jest.Mocked<PokemonService>;
+  let mockPokemonService: jest.Mocked<Partial<PokemonService>>;
+  let showFavoritesOnly: any;
 
   beforeEach(async () => {
     mockRouter = {
       navigate: jest.fn(),
     } as any;
 
-    // The real service exposes signals as properties (not functions).
-    // Provide a mock with the same shape so the component can call .pokemons()/.loading() etc.
+    showFavoritesOnly = signal(false) as any;
+    jest.spyOn(showFavoritesOnly, 'set');
+
     mockPokemonService = {
       pokemons: signal([]),
+      favorites: signal([]),
+      showFavoritesOnly,
+      filteredPokemons: signal([]),
       loadPokemons: jest.fn(),
       deletePokemon: jest.fn(),
       selectedPokemon: signal(null),
@@ -35,9 +39,8 @@ describe('PokemonListComponent', () => {
       providers: [
         { provide: Router, useValue: mockRouter },
         { provide: PokemonService, useValue: mockPokemonService },
-        { provide: ActivatedRoute, useValue: {} }
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PokemonListComponent);
@@ -48,13 +51,60 @@ describe('PokemonListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call loadPokemons on init', () => {
+  it('should call loadPokemons on init when the pokemons list is empty', () => {
     component.ngOnInit();
     expect(mockPokemonService.loadPokemons).toHaveBeenCalled();
+  });
+
+  it('should not call loadPokemons on init when pokemons already exist', () => {
+    mockPokemonService.pokemons = signal([{ name: 'pikachu', details: { id: 25 } }]) as any;
+    fixture = TestBed.createComponent(PokemonListComponent);
+    component = fixture.componentInstance;
+
+    component.ngOnInit();
+
+    expect(mockPokemonService.loadPokemons).not.toHaveBeenCalled();
   });
 
   it('should navigate to pokemon detail when openDetail is called', () => {
     component.openDetail('pikachu');
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/pokemon', 'pikachu']);
+  });
+
+  it('should return pokemon details id for trackById when available', () => {
+    const pokemon = { details: { id: 25 } };
+    expect(component.trackById(0, pokemon)).toBe(25);
+  });
+
+  it('should return index for trackById when no id is available', () => {
+    const pokemon = { name: 'unknown' };
+    expect(component.trackById(5, pokemon)).toBe(5);
+  });
+
+  it('should update selectedFilter and showFavoritesOnly when onFilterChange is called', () => {
+    component.onFilterChange(true);
+
+    expect(component.selectedFilter).toBe(true);
+    expect(mockPokemonService.showFavoritesOnly?.set).toHaveBeenCalledWith(true);
+  });
+
+  it('should load more pokemons on scroll when at bottom and not loading and hasMore is true', () => {
+    jest.useFakeTimers();
+
+    mockPokemonService.pokemons = signal([{ name: 'pikachu', details: { id: 25 } }]) as any;
+    mockPokemonService.loading = signal(false) as any;
+    mockPokemonService.hasMore = signal(true) as any;
+    mockPokemonService.filteredPokemons = signal([{ name: 'pikachu', details: { id: 25 } }]) as any;
+
+    Object.defineProperty(window, 'innerHeight', { value: 1000, configurable: true });
+    Object.defineProperty(window, 'scrollY', { value: 1500, writable: true, configurable: true });
+    Object.defineProperty(document.body, 'scrollHeight', { value: 2400, configurable: true });
+
+    component.onScroll();
+
+    expect(mockPokemonService.loadPokemons).toHaveBeenCalledWith(1, 30);
+
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
   });
 });
