@@ -7,9 +7,13 @@ import { ThemeToggle } from './pages/components/theme-toggle/theme-toggle';
 import { ThemeService } from "../app/services/theme.service";
 import { HeaderComponent } from "../app/pages/components/header/header.component"
 import { PokemonService } from './services/pokemon.service';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, WeatherComponent, HeaderComponent],
+  standalone: true,
+  imports: [RouterOutlet, CommonModule, WeatherComponent, HeaderComponent, 
+    ToastModule
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
