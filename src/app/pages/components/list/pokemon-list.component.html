@@ -8,30 +8,6 @@
   >
   </p-selectbutton>
 </div>
-<!-- <div class="filter-buttons">
-
-  <button
-    pButton
-    label="Todos"
-    [outlined]="service.showFavoritesOnly()"
-    (click)="service.showFavoritesOnly.set(false)">
-  </button>
-
-  <button
-  pButton
-  [label]="'Favoritos (' + service.favorites().length + ')'"
-  [outlined]="!service.showFavoritesOnly()"
-  (click)="service.showFavoritesOnly.set(true)">
-</button> -->
-
-<!-- <p-selectbutton
-  [options]="filterOptions"
-  [(ngModel)]="selectedFilter"
-  (onChange)="changeFilter($event)">
-</p-selectbutton> -->
-
-<!-- </div> -->
-
 <div class="pokemon-list-container">
   <div *ngIf="service.filteredPokemons().length === 0 && !service.loading()" class="empty-state">
     <p>Nenhum Pokémon encontrado.</p>
