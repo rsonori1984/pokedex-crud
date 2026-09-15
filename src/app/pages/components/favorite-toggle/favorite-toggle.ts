@@ -24,11 +24,11 @@ export class FavoriteToggle {
     if (isFavorite) {
       this.notificationService.success( 
         'Favorito', 
-        `O Pokémon ${this.pokemonName} foi adicionado aos favoritos.`);
+        `O Pokémon ${this.pokemonName} foi capturado!`);
     } else {
       this.notificationService.info(
         'Favorito', 
-        `O Pokémon ${this.pokemonName} foi removido dos favoritos.`);
+        `O Pokémon ${this.pokemonName} foi liberto!`);
     }
   }
 }
