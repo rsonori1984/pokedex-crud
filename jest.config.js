@@ -25,10 +25,14 @@ module.exports = {
   },
   testMatch: [
     '<rootDir>/src/**/*.spec.ts',
+    '<rootDir>/projects/*/src/**/*.spec.ts',
   ],
   collectCoverageFrom: [
     'src/**/*.ts',
+    'projects/*/src/**/*.ts',
     '!src/**/*.spec.ts',
+    '!projects/*/src/**/*.spec.ts',
     '!src/main.ts',
+    '!projects/*/src/main.ts',
   ],
 };

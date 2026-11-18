@@ -1,12 +1,22 @@
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { NgComponentOutlet } from '@angular/common';
+import { loadRemoteModule } from '@angular-architects/native-federation';
 import { App } from './app';
 import { ThemeService } from './services/theme.service';
 import { PokemonService } from './services/pokemon.service';
-import { WeatherService } from './services/weather.service';
 import { PrimeNG } from 'primeng/config';
+
+jest.mock('@angular-architects/native-federation', () => ({
+  loadRemoteModule: jest.fn(),
+}));
+
+const mockLoadRemoteModule = loadRemoteModule as jest.Mock;
+
+@Component({ selector: 'app-fake-weather', template: '<span class="fake-weather">clima</span>' })
+class FakeWeatherComponent {}
 
 const mockThemeService = {
   loadTheme: jest.fn(),
@@ -14,10 +24,6 @@ const mockThemeService = {
 
 const mockPokemonService = {
   loadPokemonNames: jest.fn(),
-};
-
-const mockWeatherService = {
-  getWeatherByCoords: jest.fn(),
 };
 
 const mockPrimeNG = {
@@ -28,19 +34,23 @@ const mockPrimeNG = {
 
 describe('App', () => {
   beforeEach(async () => {
+    mockLoadRemoteModule.mockReset();
+    mockLoadRemoteModule.mockResolvedValue({ WeatherComponent: FakeWeatherComponent });
+
     await TestBed.configureTestingModule({
       imports: [App, RouterTestingModule],
       providers: [
         { provide: ThemeService, useValue: mockThemeService },
         { provide: PokemonService, useValue: mockPokemonService },
-        { provide: WeatherService, useValue: mockWeatherService },
         { provide: PrimeNG, useValue: mockPrimeNG },
       ],
     })
       .overrideComponent(App, {
         set: {
-          imports: [RouterOutlet, CommonModule],
-          template: '<router-outlet></router-outlet>',
+          imports: [RouterOutlet, NgComponentOutlet],
+          template:
+            '@if (weatherComponent(); as weather) { <ng-container *ngComponentOutlet="weather" /> }' +
+            '<router-outlet></router-outlet>',
         },
       })
       .compileComponents();
@@ -64,5 +74,30 @@ describe('App', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('router-outlet')).toBeTruthy();
   });
-});
 
+  it('should load the weather widget from the mfe-weather remote', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(mockLoadRemoteModule).toHaveBeenCalledWith('mfe-weather', './WeatherComponent');
+    expect((fixture.nativeElement as HTMLElement).querySelector('.fake-weather')).toBeTruthy();
+  });
+
+  it('should keep working without the weather widget when the remote fails to load', async () => {
+    const consoleError = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+    mockLoadRemoteModule.mockRejectedValue(new Error('remote offline'));
+
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.fake-weather')).toBeNull();
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
+    expect(consoleError).toHaveBeenCalled();
+    consoleError.mockRestore();
+  });
+});

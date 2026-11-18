@@ -50,6 +50,7 @@ Deploy: https://pokedex-crud-v4t3.vercel.app/
 ## Tecnologias
 
 * Angular 20
+* Native Federation (microfrontends)
 * TypeScript
 * PrimeNG
 * RxJS
@@ -76,13 +77,50 @@ src
 │   │       ├───header
 │   │       ├───list
 │   │       ├───pokemon-search
-│   │       ├───theme-toggle
-│   │       └───weather-component
+│   │       └───theme-toggle
 │   └───services
 ├───assets
 │   └───img
 └───styles
+
+projects
+└───mfe-weather          # microfrontend (remote): widget de clima
+    └───src/app
+        ├───services
+        └───weather-component
 ```
+
+---
+
+## Arquitetura de microfrontends
+
+O projeto usa [Native Federation](https://github.com/angular-architects/module-federation-plugin/tree/main/libs/native-federation) (compatível com o builder esbuild do Angular 20).
+
+| Projeto | Papel | Porta | O que faz |
+| --- | --- | --- | --- |
+| `pokedex-crud` | Host | 4200 | Pokédex (lista, detalhe, busca, favoritos, tema) |
+| `mfe-weather` | Remote | 4201 | Widget de clima e relógio (`WeatherComponent`) |
+
+Como funciona:
+
+* O remote expõe o `WeatherComponent` em `projects/mfe-weather/federation.config.js` (`./WeatherComponent`).
+* O host descobre o endereço do remote em runtime, pelo arquivo `public/federation.manifest.json`, e carrega o componente com `loadRemoteModule` + `NgComponentOutlet` (veja `src/app/app.ts`).
+* Se o remote estiver fora do ar, a Pokédex continua funcionando normalmente, apenas sem o widget de clima.
+* Dependências do Angular são compartilhadas como singleton entre host e remote.
+
+Contrato entre host e remote: o host precisa fornecer `provideHttpClient()`, pois o `WeatherService` usa o `HttpClient` do host quando carregado como microfrontend.
+
+### Deploy
+
+O remote é um deploy independente. Em produção, aponte o manifesto do host para a URL pública do remote:
+
+```json
+{
+  "mfe-weather": "https://SEU-DEPLOY-DO-CLIMA/remoteEntry.json"
+}
+```
+
+Sem isso, o host em produção não encontra o remote e exibe a Pokédex sem o widget de clima.
 
 ---
 
@@ -106,10 +144,10 @@ Instale as dependências:
 npm install
 ```
 
-Execute o projeto:
+Execute o host e o microfrontend de clima juntos:
 
 ```bash
-ng serve
+npm run start:all
 ```
 
 Acesse:
@@ -118,18 +156,26 @@ Acesse:
 http://localhost:4200
 ```
 
+Também é possível subir cada um separadamente:
+
+```bash
+npm run start:host      # Pokédex (host)  -> http://localhost:4200
+npm run start:weather   # Clima (remote)  -> http://localhost:4201
+```
+
 ---
 
 ## Build
 
 ```bash
-ng build
+npm run build:all
 ```
 
 Os arquivos gerados ficarão em:
 
 ```text
-dist/pokedex-crud
+dist/pokedex-crud   # host
+dist/mfe-weather    # remote (inclui remoteEntry.json)
 ```
 
 ---

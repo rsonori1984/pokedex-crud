@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { WeatherComponent } from './weather-component';
-import { WeatherService } from '../../../services/weather.service';
+import { WeatherService } from '../services/weather.service';
 
 describe('WeatherComponent', () => {
   let component: WeatherComponent;
